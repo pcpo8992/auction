@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/basic.css">
-    <title>新北分署動產拍賣價格即時畫面</title>
+    <title>新北分署動產拍賣競買人喊價紀錄</title>
 </head>
 <body>
     <div class="picture">
@@ -13,15 +13,18 @@
      
     <div id="myDIV" class="header">
         
-        <h2 style="margin:10px">動產喊價金額維護畫面</h2>
+        <h2 style="margin:10px">動產拍賣競買人喊價紀錄</h2>
         <div class="input">
-            <input type="text" id="myInputPeople" placeholder="幾號民眾">
+            <input type="text" id="myInputPeople" placeholder="競買人編號">
             <input type="text" id="myInputPrice" placeholder="喊價金額">
         </div>
         <span onclick="addPrice()" class="addBtn">新增</span>
-        <span onclick="addPrice()" class="addBtn">修改</span>
+        <!-- <span onclick="addPrice()" class="addBtn">修改</span> -->
       </div>
-      
+      <div class="price">
+        <div class="title">出價最高金額</div>
+         <div class="nowPrice"></div>
+      </div>
       <ul id="myUL">
         <!-- <li>Hit the gym</li>
         <li class="checked">Pay bills</li>
