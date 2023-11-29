@@ -31,7 +31,7 @@ list.addEventListener('click', function(ev) {
         document.getElementById("myInputPrice").addEventListener('input', function() {
           // 将焦点设置回第一个输入框
           
-          console.log("hello ");  
+          // console.log("hello ");  
       });
 
 // Create a new list item when clicking on the "Add" button
@@ -40,7 +40,7 @@ function addPrice() {
   var li = document.createElement("li");
   var inputValuePeople = document.getElementById("myInputPeople").value ;
   var inputValuePrice = document.getElementById("myInputPrice").value;
-  var finialValue = inputValuePeople +  "號競買人 喊價 " + inputValuePrice + " 元";
+  var finialValue = inputValuePeople +  "號競買人 喊價 " + numberComma(inputValuePrice) + " 元";
   var t = document.createTextNode(finialValue);
   // li.appendChild(t);
   li.appendChild(t);
@@ -55,7 +55,7 @@ function addPrice() {
     }
   } else {
     // document.getElementById("myUL").appendChild(li);
-    document.querySelector(".nowPrice").textContent = inputValuePrice + '元';
+    document.querySelector(".nowPrice").textContent = numberComma(inputValuePrice) + '元';
 
     document.querySelector(".price").style.display = "block";
 
@@ -96,3 +96,9 @@ document.querySelector('#myInputPrice').addEventListener('keypress', function (e
     }
     // console.log("hello");
   });
+
+
+  function numberComma(num){
+    let comma=/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
+    return num.toString().replace(comma, ',')
+  }
