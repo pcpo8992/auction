@@ -18,8 +18,8 @@ window.onload = function() {
 
 function createDate(){
     let time = new Date();
-    let finialTime = '動產拍賣競買人喊價 (現在時間：' + time.toLocaleString() + ')';
-    document.querySelector("h2").textContent = finialTime;
+    let finialTime = '動產拍賣競買人喊價 <br><span style="font-size: 1em">(現在時間：' + time.toLocaleString() + ') </span>';
+    document.querySelector("h2").innerHTML = finialTime;
 }
 
     // setInterval(function(){
