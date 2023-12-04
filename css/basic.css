@@ -13,6 +13,11 @@ body {
     text-align: center;
     
   }
+  h3{
+    /* margin:10px; */
+    text-align: center;
+    
+  }
 
   
   /* Remove margins and padding from the list */

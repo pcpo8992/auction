@@ -18,8 +18,8 @@ window.onload = function() {
 
 function createDate(){
     let time = new Date();
-    let finialTime = '動產拍賣競買人喊價 <br><span style="font-size: 1em">(現在時間：' + time.toLocaleString() + ') </span>';
-    document.querySelector("h2").innerHTML = finialTime;
+    let finialTime = '<span style="font-size: 1em">(現在時間：' + time.toLocaleString() + ') </span>';
+    document.querySelector("h3").innerHTML = finialTime;
 }
 
     // setInterval(function(){
@@ -159,6 +159,11 @@ function createData() {
               if (itemArray[i].status == 1) {
                   // console.log(itemArray[i].itemID)
                   if (itemArray[i].price_detail != null) {
+                      let webId = itemArray[i].itemID;
+                      let webName = itemArray[i].itemName;
+                      console.log(webName);
+                    console.log(webId);
+                      document.querySelector("h2").textContent = "拍賣物編編號：" + webId + "拍賣物名稱 : " + webName ;
                       priceDetailArray = Object.values(itemArray[i].price_detail.li);
                   }
               }
@@ -177,8 +182,8 @@ function createData() {
                       li.appendChild(t);
                       ul.prepend(li);
                       nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']) + " 元";
-                      console.log(priceDetailArray.length);
-                      console.log(priceDetailArray);
+                    //   console.log(priceDetailArray.length);
+                    //   console.log(priceDetailArray);
                   }else{
                     // nowPrice.textContent = "";
                   }
