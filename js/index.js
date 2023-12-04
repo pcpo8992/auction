@@ -163,7 +163,7 @@ function createData() {
                       let webName = itemArray[i].itemName;
                       console.log(webName);
                     console.log(webId);
-                      document.querySelector("h2").textContent = "拍賣物編編號：" + webId + "拍賣物名稱 : " + webName ;
+                      document.querySelector("h2").textContent = "拍賣物編編號：" + webId + "  拍賣物名稱 : " + webName ;
                       priceDetailArray = Object.values(itemArray[i].price_detail.li);
                   }
               }
