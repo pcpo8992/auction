@@ -1,6 +1,7 @@
 let item;
 let priceDetailArray;
 let nowPrice = document.querySelector(".nowPrice");
+createDate();
 
 window.onload = function() {
     let i = 0;
@@ -8,15 +9,23 @@ window.onload = function() {
     //     i += 1;
     //     document.querySelector(".nowPrice").textContent = i;
     // }, 1000);
+    createData();
+    setInterval(function(){
+        createDate();
+    }, 1000);
+    
+};
+
+function createDate(){
+    let time = new Date();
+    let finialTime = '動產拍賣競買人喊價 (現在時間：' + time.toLocaleString() + ')';
+    document.querySelector("h2").textContent = finialTime;
+}
 
     // setInterval(function(){
     //   createData();
     //   console.log(1);
     // }, 1000);
-    createData();
-};
-
-
 
 function numberComma(num) {
     let comma = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
@@ -54,7 +63,7 @@ async function removeTag() {
 async function main(itemArray) {
     const result = await removeTag();
     // console.log(result);
-    console.log(result);
+    // console.log(result);
     for (let i = 0; i < itemArray.length; i++) {
         if (itemArray[i].status == 1) {
             // console.log(itemArray[i].itemID)
@@ -83,6 +92,8 @@ async function main(itemArray) {
 }
 
 function createData() {
+
+
     let firebaseConfig = {
         // ...
         // The value of `databaseURL` depends on the location of the database
@@ -100,7 +111,7 @@ function createData() {
         item = e.val();
         if (item != null) {
             let itemArray = Object.values(item);
-            console.log(document.querySelectorAll("li").length);
+            // console.log(document.querySelectorAll("li").length);
 
             // removeTag();
             // main(itemArray);
@@ -172,6 +183,11 @@ function createData() {
                     // nowPrice.textContent = "";
                   }
               }
+
+              if(priceDetailArray.length != 0 && priceDetailArray[0]['myInputPeople'] != null){
+                document.querySelector("li").setAttribute("class", "check");
+              }
+
 
               let number = 0;
               for (let i = 0; i < priceDetailArray.length; i++) {
