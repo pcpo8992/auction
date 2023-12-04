@@ -85,7 +85,7 @@ async function main(itemArray) {
                 // li.appendChild(t);
                 li.appendChild(t);
                 ul.prepend(li);
-                nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']) + " 元";
+                nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']) ;
             }
         }
     }
