@@ -1,104 +1,189 @@
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+let item;
+let priceDetailArray;
+let nowPrice = document.querySelector(".nowPrice");
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
+window.onload = function() {
+    let i = 0;
+    // setInterval(function(){
+    //     i += 1;
+    //     document.querySelector(".nowPrice").textContent = i;
+    // }, 1000);
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
-
-        // 监听第二个输入框的输入事件
-        document.getElementById("myInputPrice").addEventListener('input', function() {
-          // 将焦点设置回第一个输入框
-          
-          // console.log("hello ");  
-      });
-
-// Create a new list item when clicking on the "Add" button
-function addPrice() {
-  var ul = document.querySelector("#myUL");
-  var li = document.createElement("li");
-  var inputValuePeople = document.getElementById("myInputPeople").value ;
-  var inputValuePrice = document.getElementById("myInputPrice").value;
-  var finialValue = inputValuePeople +  "號競買人 喊價 " + numberComma(inputValuePrice) + " 元";
-  var t = document.createTextNode(finialValue);
-  // li.appendChild(t);
-  li.appendChild(t);
-  
-  if (inputValuePeople === '' || inputValuePrice === "") {
-    if(inputValuePeople === ''){
-      alert("必須輸入競買人資料");
-      document.getElementById("myInputPeople").focus();
-    }else if(inputValuePrice === ""){
-      alert("必須輸入喊價金額資料");
-      document.getElementById("myInputPrice").focus();
-    }
-  } else {
-    // document.getElementById("myUL").appendChild(li);
-    document.querySelector(".nowPrice").textContent = numberComma(inputValuePrice) + '元';
-
-    document.querySelector(".price").style.display = "block";
-
-    document.getElementById("myUL").prepend(li);
-    document.getElementById("myInputPeople").value = "";
-    document.getElementById("myInputPrice").value = "";
-  
-    document.getElementById("myInputPeople").focus();
-  
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    li.appendChild(span);
-    for (i = 0; i < close.length; i++) {
-      close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-      }
-    }
-
-    //add now price 
-    
-  }
-
-  // li.prepend(span);
+    // setInterval(function(){
+    //   createData();
+    //   console.log(1);
+    // }, 1000);
+    createData();
+};
 
 
 
-
-}
-
-// 按 Enter 新增
-document.querySelector('#myInputPrice').addEventListener('keypress', function (e) {
-    // Enter 對應鍵盤代碼：13
-    if (e.which === 13) {
-        addPrice();
-    }
-    // console.log("hello");
-  });
-
-
-  function numberComma(num){
-    let comma=/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
+function numberComma(num) {
+    let comma = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
     return num.toString().replace(comma, ',')
-  }
+}
+
+// import firebase from "firebase/app";
+// import "firebase/compat/database";
+
+// TODO: Replace the following with your app's Firebase project configuration
+// See: https://firebase.google.com/docs/web/learn-more#config-object
+
+async function removeTag() {
+    // 
+    // if(document.querySelectorAll("li").length!= 0){
+    // //   for (let i = 0; i < document.querySelectorAll("li").length; i++) {
+    // //     document.querySelectorAll("li")[i].remove();
+
+    // //     console.log(document.querySelectorAll("li")[i]);
+    // // }
+    //  document.querySelectorAll("li")[0].remove()
+    // }
+    // return 'done';
+
+    while (true) {
+        if (document.querySelectorAll("li").length == 0) {
+            return 'done';
+            break;
+        } else {
+            document.querySelectorAll("li")[0].remove();
+        }
+    }
+}
+
+async function main(itemArray) {
+    const result = await removeTag();
+    // console.log(result);
+    console.log(result);
+    for (let i = 0; i < itemArray.length; i++) {
+        if (itemArray[i].status == 1) {
+            // console.log(itemArray[i].itemID)
+            if (itemArray[i].price_detail != null) {
+                priceDetailArray = Object.values(itemArray[i].price_detail.li);
+            }
+        }
+    }
+    let ul = document.querySelector("#myUL");
+
+    if (priceDetailArray != null) {
+        for (let i = 0; i < priceDetailArray.length; i++) {
+            if (priceDetailArray[i]['myInputPeople'] != null) {
+                let li = document.createElement("li");
+                // var finialValue = inputValuePeople + "號競買人 喊價 " + numberComma(inputValuePrice) + " 元";
+                let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + numberComma(priceDetailArray[i]['myInputPrice']).toString() + " 元";
+                // console.log(finialValue);
+                let t = document.createTextNode(finialValue);
+                // li.appendChild(t);
+                li.appendChild(t);
+                ul.prepend(li);
+                nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']) + " 元";
+            }
+        }
+    }
+}
+
+function createData() {
+    let firebaseConfig = {
+        // ...
+        // The value of `databaseURL` depends on the location of the database
+        databaseURL: "https://auction-88ffa-default-rtdb.firebaseio.com/",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+
+    // Initialize Realtime Database and get a reference to the service
+    let database = firebase.database();
+
+    database.ref("/").on('value', e => {
+        item = e.val();
+        if (item != null) {
+            let itemArray = Object.values(item);
+            console.log(document.querySelectorAll("li").length);
+
+            // removeTag();
+            // main(itemArray);
+            // for (let i = 0; i < document.querySelectorAll("li").length; i++) {
+            //     document.querySelectorAll("li")[i].remove();
+            //     console.log(i);
+            // }
+
+
+            // for (let i = 0; i < itemArray.length; i++) {
+            //     if (itemArray[i].status == 1) {
+            //         // console.log(itemArray[i].itemID)
+            //         if(itemArray[i].price_detail != null){
+            //           priceDetailArray = Object.values(itemArray[i].price_detail.li);
+            //         }
+            //     }
+            // }
+            // let ul = document.querySelector("#myUL");
+
+            // if(priceDetailArray != null){
+            //   for (let i = 0; i < priceDetailArray.length; i++) {
+            //     if (priceDetailArray[i]['myInputPeople'] != null) {
+            //         let li = document.createElement("li");
+            //         // var finialValue = inputValuePeople + "號競買人 喊價 " + numberComma(inputValuePrice) + " 元";
+            //         let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + numberComma(priceDetailArray[i]['myInputPrice']).toString() + " 元";
+            //         // console.log(finialValue);
+            //         let t = document.createTextNode(finialValue);
+            //         // li.appendChild(t);
+            //         li.appendChild(t);
+            //         ul.prepend(li);
+            //         nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']) + " 元";
+            //     }
+            // }
+            // }
+
+            while (true) {
+                if (document.querySelectorAll("li").length == 0) {
+                    // return 'done';
+                    break;
+                } else {
+                    document.querySelectorAll("li")[0].remove();
+                }
+            }
+            for (let i = 0; i < itemArray.length; i++) {
+              if (itemArray[i].status == 1) {
+                  // console.log(itemArray[i].itemID)
+                  if (itemArray[i].price_detail != null) {
+                      priceDetailArray = Object.values(itemArray[i].price_detail.li);
+                  }
+              }
+          }
+          let ul = document.querySelector("#myUL");
+      
+          if (priceDetailArray != null) {
+              for (let i = 0; i < priceDetailArray.length; i++) {
+                  if (priceDetailArray[i]['myInputPeople'] != null) {
+                      let li = document.createElement("li");
+                      // var finialValue = inputValuePeople + "號競買人 喊價 " + numberComma(inputValuePrice) + " 元";
+                      let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + numberComma(priceDetailArray[i]['myInputPrice']).toString() + " 元";
+                      // console.log(finialValue);
+                      let t = document.createTextNode(finialValue);
+                      // li.appendChild(t);
+                      li.appendChild(t);
+                      ul.prepend(li);
+                      nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']) + " 元";
+                      console.log(priceDetailArray.length);
+                      console.log(priceDetailArray);
+                  }else{
+                    // nowPrice.textContent = "";
+                  }
+              }
+
+              let number = 0;
+              for (let i = 0; i < priceDetailArray.length; i++) {
+                if (priceDetailArray[i]['myInputPeople'] == null){
+                    number++;
+                }
+              }
+              if(priceDetailArray.length == number){
+                nowPrice.textContent = "";
+              }
+
+          }
+        }
+    })
+}

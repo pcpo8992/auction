@@ -1,40 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/basic.css">
-    <title>新北分署動產拍賣競買人喊價紀錄</title>
-</head>
-<body>
-    <div class="picture">
-        <img src="./img/newTaipei.png" alt=""> 
+    <title>新北分署動產拍賣競買人喊價歷程</title>
+  </head>
+  <body>
+    <h2 >動產拍賣競買人喊價</h2>
+    <div class="price">
+      <div class="title">出價最高金額</div>
+      <div class="nowPrice"></div>
     </div>
-     
-    <div id="myDIV" class="header">
-        
-        <h2 style="margin:10px">動產拍賣競買人喊價紀錄</h2>
-        <div class="input">
-            <input type="text" id="myInputPeople" placeholder="競買人編號">
-            <input type="text" id="myInputPrice" placeholder="喊價金額">
-            <span onclick="addPrice()" class="addBtn">新增</span>
-        </div>
-        
-        <!-- <span onclick="addPrice()" class="addBtn">修改</span> -->
-      </div>
-      <div class="price">
-        <div class="title">出價最高金額</div>
-         <div class="nowPrice"></div>
-      </div>
+    <div>
       <ul id="myUL">
         <!-- <li>Hit the gym</li>
-        <li class="checked">Pay bills</li>
+        <li>Pay bills</li>
         <li>Meet George</li>
         <li>Buy eggs</li>
         <li>Read a book</li>
         <li>Organize office</li> -->
       </ul>
+    </div>
 
-      <script src="./js/index.js"></script>
-</body>
+    <div class="picture">
+      <img src="./img/newTaipei.png" alt="">
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
 </html>
