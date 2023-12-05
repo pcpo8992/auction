@@ -172,7 +172,7 @@ function endAuction() {
                     }
                 }
             } else if (itemArray[itemArray.length - 1].status == 2) {
-                document.querySelector('h2').textContent = '拍賣競買人喊價';
+                // document.querySelector('h2').textContent = '拍賣競買人喊價';
                 document.querySelector('.nowPrice').textContent = '無人應買';
                 console.log("status == 2");
                 while (true) {
