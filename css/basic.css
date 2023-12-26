@@ -4,13 +4,13 @@
       height: 150px;
       text-align: center;
       line-height: 100px ;
-      font-size: 8px;
+      font-size: 12px;
       color: white;
  }
   h2{
       margin:10px;
       text-align: center;
-      font-size: 8px;
+      font-size: 12px;
       color: red;
  }
   .price{
@@ -29,7 +29,7 @@
       padding: 12px 8px 12px 40px;
       list-style-type: none;
       background: #eee;
-      font-size: 8px;
+      font-size: 12px;
       transition: 0.2s;
      /* make the list items unselectable */
       -webkit-user-select: none;
@@ -41,12 +41,12 @@
       height: 100px;
       text-align: center;
       line-height: 100px ;
-      font-size: 8px;
+      font-size: 12px;
       color: white;
  }
 }
 /**電腦**/
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 490px) {
   .nowPrice{
       height: 150px;
       text-align: center;
