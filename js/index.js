@@ -47,7 +47,7 @@ function createData() {
     // Initialize Realtime Database and get a reference to the service
     let database = firebase.database();
 
-    database.ref("/").on('value', e => {
+    database.ref("/item").on('value', e => {
         item = e.val();
         if (item != null) {
             let itemArray = Object.values(item);
@@ -65,7 +65,7 @@ function createData() {
 
             priceDetailArray = null;
             for (let i = 0; i < itemArray.length; i++) {
-                if (itemArray[i].status == 1 && itemArray.endAuction == null) {
+                if (itemArray[i].status == 2 && itemArray.endAuction == null) {
                     // console.log(itemArray[i].itemID)
                     if (itemArray[i].itemLeastPrice != "") {
                         document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額：" + numberComma(itemArray[i].itemLeastPrice);
@@ -85,7 +85,7 @@ function createData() {
                 }
             }
             let ul = document.querySelector("#myUL");
-            console.log(priceDetailArray);
+            // console.log(priceDetailArray);
 
             if (priceDetailArray != null) {
                 for (let i = 0; i < priceDetailArray.length; i++) {
@@ -142,62 +142,67 @@ function endAuction() {
     // Initialize Realtime Database and get a reference to the service
     let database = firebase.database();
 
-    database.ref("/").once('value', e => {
+    database.ref("/item").once('value', e => {
         item = e.val();
+        let nowNumber;
         if (item != null) {
             let itemArray = Object.values(item);
 
-            console.log(itemArray.length);
+            // console.log(itemArray.length);
             let numberEndAuction = 0;
             let numberEndAuction2 = 0;
-            // for (let i = 0; i < itemArray.length; i++) {
-            //     if (itemArray[i].endAuction == 1) {
-            //         numberEndAuction += 1;
-            //     } else if (itemArray[i].status == 2) {
-            //         numberEndAuction2 += 1;
-            //     }
-            // }
+
+            for (let i = 0; i < itemArray.length; i++) {
+                if (itemArray[i].status == 2) {
+                    nowNumber = i;
+                    break;
+                }
+            }
             // console.log("number" + numberEndAuction);
             // if (numberEndAuction == itemArray.length) {
-            if (itemArray[itemArray.length - 1].endAuction == 1) {
-                console.log("endAuction");
+            if (nowNumber != null) {
+                if (itemArray[nowNumber].endAuction == 2) {
+                    // console.log("endAuction");
+                    document.querySelector('h2').textContent = '拍賣競買人喊價';
+                    document.querySelector('.nowPrice').textContent = '';
+
+                    while (true) {
+                        if (document.querySelectorAll("li").length == 0) {
+                            break;
+                        } else {
+                            document.querySelectorAll("li")[0].remove();
+                        }
+                    }
+                } else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].nopeople == 1) {
+                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
+                    document.querySelector('.nowPrice').textContent = '無人應買';
+                    console.log("無人應買");
+                    while (true) {
+                        if (document.querySelectorAll("li").length == 0) {
+                            break;
+                        } else {
+                            document.querySelectorAll("li")[0].remove();
+                        }
+                    }
+                } else if (itemArray[nowNumber].status == 1) {
+                    // console.log("status == 1");
+                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
+                    // console.log("無資料");
+                    // document.querySelector('.nowPrice').textContent = '';
+
+                    // while (true) {
+                    //     if (document.querySelectorAll("li").length == 0) {
+                    //         break;
+                    //     } else {
+                    //         document.querySelectorAll("li")[0].remove();
+                    //     }
+                }
+            } else {
                 document.querySelector('h2').textContent = '拍賣競買人喊價';
-                document.querySelector('.nowPrice').textContent = '';
-
-                while (true) {
-                    if (document.querySelectorAll("li").length == 0) {
-                        break;
-                    } else {
-                        document.querySelectorAll("li")[0].remove();
-                    }
-                }
-            } else if (itemArray[itemArray.length - 1].status == 2) {
-                // document.querySelector('h2').textContent = '拍賣競買人喊價';
-                document.querySelector('.nowPrice').textContent = '無人應買';
-                console.log("status == 2");
-                while (true) {
-                    if (document.querySelectorAll("li").length == 0) {
-                        break;
-                    } else {
-                        document.querySelectorAll("li")[0].remove();
-                    }
-                }
-            } else if (itemArray[itemArray.length - 1].status == 1) {
-                console.log("status == 1");
-                // document.querySelector('h2').textContent = '';
-                // document.querySelector('.nowPrice').textContent = '';
-
-                // while (true) {
-                //     if (document.querySelectorAll("li").length == 0) {
-                //         break;
-                //     } else {
-                //         document.querySelectorAll("li")[0].remove();
-                //     }
+                // console.log("無資料");
             }
-        }else{
-            document.querySelector('h2').textContent = '拍賣競買人喊價';
-            console.log("無資料");
-        }
+        } 
+
         //   let ul = document.querySelector("#myUL");
     })
 }
