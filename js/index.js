@@ -51,7 +51,7 @@ function createData() {
         item = e.val();
         if (item != null) {
             let itemArray = Object.values(item);
-            console.log(itemArray)
+            // console.log(itemArray)
             // document.querySelector("h2").textContent = "拍賣物名稱 : " + itemArray[i].itemName;
 
             while (true) {
