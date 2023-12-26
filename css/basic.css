@@ -11,7 +11,7 @@
   h2{
     margin:10px;
     text-align: center;
-    font-size: 1em;
+    font-size: 12px;
     color: red;
   }
   .price{
@@ -29,7 +29,7 @@
     padding: 12px 8px 12px 40px;
     list-style-type: none;
     background: #eee;
-    font-size: 1em;
+    font-size: 12px;
     transition: 0.2s;
     
     /* make the list items unselectable */
@@ -42,7 +42,7 @@
     height: 100px;
     text-align: center;
     line-height: 100px  ;
-    font-size: 1em;
+    font-size: 12px;
     color: white;
   }
 }
