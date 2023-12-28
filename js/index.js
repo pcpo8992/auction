@@ -1,10 +1,13 @@
 let item;
 let priceDetailArray;
-let nowPrice = document.querySelector(".nowPrice");
-createDate();
+let nowPrice;
+
 
 window.onload = function() {
+    nowPrice  = document.querySelector(".nowPrice");
     let i = 0;
+
+    createDate();
 
     createData();
 
@@ -175,7 +178,7 @@ function endAuction() {
                     // }
                     createData();
                 } else if (itemArray[nowNumber].status == 3){
-                    document.querySelector('h2').textContent = '拍賣競買人喊價';
+                    document.querySelector('h2').textContent = '動產拍賣競買人喊價';
                     document.querySelector('.nowPrice').textContent = '';
 
                     while (true) {
@@ -197,21 +200,9 @@ function endAuction() {
                             document.querySelectorAll("li")[0].remove();
                         }
                     }
-                } else if (itemArray[nowNumber].status == 1) {
-                    // console.log("status == 1");
-                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
-                    // console.log("無資料");
-                    // document.querySelector('.nowPrice').textContent = '';
-
-                    // while (true) {
-                    //     if (document.querySelectorAll("li").length == 0) {
-                    //         break;
-                    //     } else {
-                    //         document.querySelectorAll("li")[0].remove();
-                    //     }
-                }
+                } 
             } else {
-                document.querySelector('h2').textContent = '拍賣競買人喊價';
+                document.querySelector('h2').textContent = '動產拍賣競買人喊價';
                 // console.log("無資料");
             }
         } 
