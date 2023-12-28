@@ -149,8 +149,8 @@ function endAuction() {
             let itemArray = Object.values(item);
 
             // console.log(itemArray.length);
-            let numberEndAuction = 0;
-            let numberEndAuction2 = 0;
+            // let numberEndAuction = 0;
+            // let numberEndAuction2 = 0;
 
             for (let i = 0; i < itemArray.length; i++) {
                 if (itemArray[i].status == 2) {
@@ -161,8 +161,20 @@ function endAuction() {
             // console.log("number" + numberEndAuction);
             // if (numberEndAuction == itemArray.length) {
             if (nowNumber != null) {
-                if (itemArray[nowNumber].endAuction == 2) {
+                if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].endAuction == 2) {
                     // console.log("endAuction");
+                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
+                    // document.querySelector('.nowPrice').textContent = '';
+
+                    // while (true) {
+                    //     if (document.querySelectorAll("li").length == 0) {
+                    //         break;
+                    //     } else {
+                    //         document.querySelectorAll("li")[0].remove();
+                    //     }
+                    // }
+                    createData();
+                } else if (itemArray[nowNumber].status == 3){
                     document.querySelector('h2').textContent = '拍賣競買人喊價';
                     document.querySelector('.nowPrice').textContent = '';
 
@@ -173,7 +185,8 @@ function endAuction() {
                             document.querySelectorAll("li")[0].remove();
                         }
                     }
-                } else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].nopeople == 1) {
+
+                }else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].nopeople == 1) {
                     // document.querySelector('h2').textContent = '拍賣競買人喊價';
                     document.querySelector('.nowPrice').textContent = '無人應買';
                     console.log("無人應買");
