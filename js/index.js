@@ -190,7 +190,6 @@ function endAuction() {
                     }
 
                 }else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].nopeople == 1) {
-                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
                     document.querySelector('.nowPrice').textContent = '無人應買';
                     console.log("無人應買");
                     while (true) {
@@ -200,9 +199,7 @@ function endAuction() {
                             document.querySelectorAll("li")[0].remove();
                         }
                     }
-                } 
-                else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].belowReserve == 1) {
-                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
+                }else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].belowReserve == 1) {
                     document.querySelector('.nowPrice').textContent = '未達底價';
                     console.log("未達底價");
                     while (true) {
