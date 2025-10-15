@@ -201,6 +201,18 @@ function endAuction() {
                         }
                     }
                 } 
+                else if (itemArray[nowNumber].status == 2 && itemArray[nowNumber].belowReserve == 1) {
+                    // document.querySelector('h2').textContent = '拍賣競買人喊價';
+                    document.querySelector('.nowPrice').textContent = '未達底價';
+                    console.log("未達底價");
+                    while (true) {
+                        if (document.querySelectorAll("li").length == 0) {
+                            break;
+                        } else {
+                            document.querySelectorAll("li")[0].remove();
+                        }
+                    }
+                } 
             } else {
                 document.querySelector('h2').textContent = '動產拍賣競買人喊價';
                 // console.log("無資料");
