@@ -1,169 +1,126 @@
-/**手機**/
-@media only screen and (min-width: 0px) and (max-width: 490px){
-  .nowPrice{
-      height: 150px;
-      text-align: center;
-      line-height: 100px ;
-      font-size: 1.5em;
-      color: white;
- }
-  h2{
-      margin:10px;
-      text-align: center;
-      font-size: 1em;
-      color: red;
- }
-  .price{
-      width:100%;
-      height: 300px;
-      background-color: #3B7C6E;
-      display: flexbox;
-      justify-content: center;
-      align-items: center;
-     /* display: none;
-      */
- }
-  ul li {
-      cursor: pointer;
-      position: relative;
-      padding: 12px 8px 12px 40px;
-      list-style-type: none;
-      background: #eee;
-      font-size: 1.2em;
-      transition: 0.2s;
-     /* make the list items unselectable */
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
- }
-  .title{
-      height: 100px;
-      text-align: center;
-      line-height: 100px ;
-      font-size: 1.5em;
-      color: white;
- }
-}
-/**電腦**/
-@media only screen and (min-width: 490px) {
-  .nowPrice{
-      height: 150px;
-      text-align: center;
-      line-height: 100px ;
-      font-size: 7em;
-      color: white;
- }
-  h2{
-      margin:10px;
-      text-align: center;
-      font-size: 2.5em;
-      color: red;
- }
-  .price{
-      width:100%;
-      height: 400px;
-      background-color: #3B7C6E;
-      display: flexbox;
-      justify-content: center;
-      align-items: center;
-     /* display: none;
-      */
- }
-  ul li {
-      cursor: pointer;
-      position: relative;
-      padding: 12px 8px 12px 40px;
-      list-style-type: none;
-      background: #eee;
-      font-size: 2em;
-      transition: 0.2s;
-     /* make the list items unselectable */
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
- }
-  .title{
-      height: 100px;
-      text-align: center;
-      line-height: 100px ;
-      font-size: 2.5em;
-      color: white;
- }
-}
 body {
   margin: 0;
   min-width: 250px;
+  background: linear-gradient(180deg, #f8f9fa 0%, #e6f0eb 100%);
+  font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  color: #222;
+  overflow-x: hidden;
 }
-/* Include the padding and border in an element's total width and height */
-* {
-  box-sizing: border-box;
-}
-h3{
- /* margin:10px;
-  */
-  text-align: center;
-  font-size: 1.5em;
-  
-}
-/* Remove margins and padding from the list */
-ul {
-  margin: 10;
-  padding: 0;
-}
-/* Style the list items */
-/* Set all odd list items to a different color (zebra-stripes) */
-ul li:nth-child(even) {
-  background: #f9f9f9;
-  color: black;
-}
-ul li{
-  background-color: #FFF2CD;
-  border: 1px solid white;
-}
-ul li.check{
 
-  font-size: 2.5em;
-  font-weight: bolder;
-  border: 2px solid black;
-  box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
-  inset: 6px 6px 32px rgba(255,255,255,0.1);
-  inset :0px 0px 8px rgba(255,255,255,0.5);
-  inset: -5px -5px 12px rgba(0,0,0,0.25);
+h2 {
+  margin: 15px;
+  text-align: center;
+  font-size: 2.4em;
+  color: #c9302c;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
-/* Darker background-color on hover */
-ul li:hover {
-  background: #ddd;
+
+h3 {
+  text-align: center;
+  font-size: 1.3em;
+  color: #555;
 }
-/* When clicked on, add a background color and strike out text */
-/* ul li.checked {
-  background: #888;
+
+/* 出價區塊 */
+.price {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(120deg, #2b6777, #52ab98);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.2);
+}
+
+.title {
+  height: 80px;
+  line-height: 80px;
+  font-size: 2em;
   color: #fff;
-  text-decoration: line-through;
+  text-shadow: 0px 0px 6px rgba(0,0,0,0.3);
 }
-*/
-/* Add a "checked" mark when clicked on */
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
+
+.nowPrice {
+  font-size: 6em;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-shadow: 0px 0px 20px rgba(255,255,255,0.6);
+  animation: pricePulse 1s infinite alternate;
 }
-.picture{
+
+/* 金額跳動動畫 */
+@keyframes pricePulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(1.05); opacity: 1; }
+}
+
+/* 列表樣式 */
+ul {
+  margin: 20px auto;
+  padding: 0;
+  max-width: 700px;
+  width: 90%;
+  list-style-type: none;
+}
+
+ul li {
+  background: #fff8e1;
+  border-radius: 12px;
+  padding: 15px 25px;
+  margin: 10px 0;
+  font-size: 1.6em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border-left: 10px solid #f0ad4e;
+}
+
+ul li:hover {
+  transform: translateY(-3px);
+  background: #fff3cd;
+}
+
+ul li.check {
+  background: #ffe066;
+  font-size: 2em;
+  font-weight: bold;
+  border-left: 10px solid #ffc107;
+  box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+  animation: flashNew 1s ease-in-out 3;
+}
+
+/* 最新出價閃爍效果 */
+@keyframes flashNew {
+  0%, 100% { background-color: #ffe066; }
+  50% { background-color: #fff9c4; }
+}
+
+/* 底部圖樣 */
+.picture {
   display: flex;
   justify-content: center;
   position: fixed;
   bottom: 0;
   width: 100%;
+  background: rgba(255,255,255,0.9);
+  padding: 10px 0;
 }
-img{
-  width :40%;
-  background-color: white;
+
+.picture img {
+  width: 35%;
+  max-width: 300px;
+  filter: drop-shadow(0px 2px 5px rgba(0,0,0,0.3));
+}
+
+/* 手機版 */
+@media only screen and (max-width: 490px) {
+  h2 { font-size: 1.4em; margin: 10px; }
+  .title { font-size: 1.2em; height: 60px; line-height: 60px; }
+  .nowPrice { font-size: 3em; line-height: 120px; }
+  ul li { font-size: 1.1em; padding: 10px 15px; }
+  .price { height: 250px; border-radius: 0 0 15px 15px; }
+  .picture img { width: 60%; }
 }
