@@ -479,12 +479,88 @@ function numberComma(num) {
     return num.toString().replace(comma, ',')
 }
 
+// 數字轉國字功能 (雙11活動專用)
+function numberToChinese(num) {
+    // 如果想改回逗號格式,註解掉這個函數內容,改用: return numberComma(num);
+    
+    const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+    const units = ['', '十', '百', '千'];
+    const bigUnits = ['', '萬', '億', '兆'];
+    
+    if (num === 0) return '零';
+    
+    let numStr = num.toString();
+    let result = '';
+    let zeroFlag = false;
+    
+    // 將數字分成每4位一組
+    let groups = [];
+    while (numStr.length > 0) {
+        groups.unshift(numStr.slice(-4));
+        numStr = numStr.slice(0, -4);
+    }
+    
+    // 處理每一組
+    for (let i = 0; i < groups.length; i++) {
+        let groupNum = parseInt(groups[i]);
+        let groupStr = '';
+        
+        if (groupNum === 0) {
+            if (i < groups.length - 1) {
+                zeroFlag = true;
+            }
+            continue;
+        }
+        
+        // 處理組內數字
+        let groupDigits = groups[i].split('');
+        for (let j = 0; j < groupDigits.length; j++) {
+            let digit = parseInt(groupDigits[j]);
+            let unitIndex = groupDigits.length - 1 - j;
+            
+            if (digit === 0) {
+                if (j < groupDigits.length - 1 && !zeroFlag) {
+                    zeroFlag = true;
+                }
+            } else {
+                if (zeroFlag) {
+                    groupStr += '零';
+                    zeroFlag = false;
+                }
+                
+                // 特殊處理"一十"變"十"
+                if (digit === 1 && unitIndex === 1 && groupStr === '' && i === groups.length - 1 && groups.length === 1) {
+                    groupStr += units[unitIndex];
+                } else {
+                    groupStr += digits[digit] + units[unitIndex];
+                }
+            }
+        }
+        
+        result += groupStr + bigUnits[groups.length - 1 - i];
+        zeroFlag = false;
+    }
+    
+    return result;
+}
+
+// 格式化顯示 (雙11活動專用 - 國字版)
+function formatPrice(num) {
+    return numberToChinese(num);
+}
+
+// 如果要改回逗號格式,取消下面這行的註解,並註解掉上面的 formatPrice 函數
+// function formatPrice(num) { return numberComma(num); }
+
 function createData() {
     let firebaseConfig = {
         databaseURL: "https://auction-88ffa-default-rtdb.firebaseio.com/",
     };
 
-    firebase.initializeApp(firebaseConfig);
+    // 檢查是否已初始化
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
 
     let database = firebase.database();
 
@@ -514,9 +590,11 @@ function createData() {
                     }
                     
                     if (itemArray[i].itemLeastPrice != "") {
-                        document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + numberComma(itemArray[i].itemLeastPrice);
+                        //document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
+                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
                     } else {
-                        document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
+                        //document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
+                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
                     }
 
                     if (itemArray[i].price_detail != null) {
@@ -532,19 +610,17 @@ function createData() {
                 for (let i = 0; i < priceDetailArray.length; i++) {
                     if (priceDetailArray[i]['myInputPeople'] != null) {
                         let li = document.createElement("li");
-                        let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + numberComma(priceDetailArray[i]['myInputPrice']).toString() + " 元";
+                        let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + formatPrice(priceDetailArray[i]['myInputPrice']) + " 元";
                         let t = document.createTextNode(finialValue);
                         li.appendChild(t);
                         ul.prepend(li);
-                        nowPrice.textContent = numberComma(priceDetailArray[i]['myInputPrice']);
-                    } else {
+                        nowPrice.textContent = formatPrice(priceDetailArray[i]['myInputPrice']);
                     }
                 }
 
                 if (priceDetailArray.length != 0 && priceDetailArray[0]['myInputPeople'] != null) {
                     document.querySelector("li").setAttribute("class", "check");
                 }
-
 
                 let number = 0;
                 for (let i = 0; i < priceDetailArray.length; i++) {
@@ -565,25 +641,19 @@ function showCelebration(buyerNumber, finalPrice) {
     const winnerInfo = document.getElementById('winnerInfo');
     const audio = document.getElementById('celebrationSound');
     
-    winnerInfo.innerHTML = `${buyerNumber}號競買人<br>得標金額: ${numberComma(finalPrice)} 元`;
+    winnerInfo.innerHTML = `${buyerNumber}號競買人<br>得標金額: ${formatPrice(finalPrice)} 元`;
     overlay.classList.add('active');
     
-    // 播放音效
-    if (audio) {
+    // 播放音效 (只在已啟用時播放)
+    if (audio && audioEnabled) {
         audio.volume = 1;
         audio.currentTime = 0;
         
-        // 使用 Promise 來處理播放
-        const playPromise = audio.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                console.log('🎵 音效播放成功!');
-            }).catch(err => {
-                console.log('⚠️ 音效播放失敗(可能是瀏覽器限制):', err);
-                // 即使音效失敗,動畫照常播放
-            });
-        }
+        audio.play().then(() => {
+            console.log('🎵 音效播放成功!');
+        }).catch(err => {
+            console.log('⚠️ 音效播放失敗:', err);
+        });
     }
     
     createConfetti();
