@@ -591,10 +591,12 @@ function createData() {
                     
                     if (itemArray[i].itemLeastPrice != "") {
                         //document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
-                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
-                    } else {
+                        //document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
+                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:十萬元";
+                      } else {
                         //document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
-                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
+                        //document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
+                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:十萬元";
                     }
 
                     if (itemArray[i].price_detail != null) {
