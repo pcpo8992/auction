@@ -545,12 +545,10 @@ function numberToChinese(num) {
 }
 
 // 格式化顯示 (雙11活動專用 - 國字版)
-function formatPrice(num) {
-    return numberToChinese(num);
-}
+//function formatPrice(num) {     return numberToChinese(num);}
 
 // 如果要改回逗號格式,取消下面這行的註解,並註解掉上面的 formatPrice 函數
-// function formatPrice(num) { return numberComma(num); }
+ function formatPrice(num) { return numberComma(num); }
 
 function createData() {
     let firebaseConfig = {
