@@ -54,7 +54,7 @@ h3 {
 }
 
 .nowPrice {
-  font-size: 6em;
+  font-size: 7em;
   color: #fff;
   font-weight: bold;
   letter-spacing: 4px;
@@ -384,7 +384,8 @@ ul li.check {
     <h2 >動產拍賣競買人喊價</h2>
     <h3></h3>
     <div class="price">
-      <div class="title">出價最高金額<span style="font-size: 0.6em;">(單位:元)</span></div>
+      <!-- <div class="title">出價最高金額<span style="font-size: 0.6em;">(單位:萬元)</span></div> -->
+      <div class="title">出價最高金額<span style="font-size: 0.6em;"></span></div>
       <div class="nowPrice"></div>
     </div>
     <div>
@@ -475,8 +476,10 @@ function createDate() {
 
 
 function numberComma(num) {
+    let result = num / 10000;
     let comma = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
-    return num.toString().replace(comma, ',')
+    // return num.toString().replace(comma, ',')
+    return result.toString().replace(comma, ',')
 }
 
 // 數字轉國字功能 (雙11活動專用)
@@ -610,11 +613,11 @@ function createData() {
                 for (let i = 0; i < priceDetailArray.length; i++) {
                     if (priceDetailArray[i]['myInputPeople'] != null) {
                         let li = document.createElement("li");
-                        let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + formatPrice(priceDetailArray[i]['myInputPrice']) + " 元";
+                        let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + formatPrice(priceDetailArray[i]['myInputPrice']) + " 萬元";
                         let t = document.createTextNode(finialValue);
                         li.appendChild(t);
                         ul.prepend(li);
-                        nowPrice.textContent = formatPrice(priceDetailArray[i]['myInputPrice']);
+                        nowPrice.textContent = formatPrice(priceDetailArray[i]['myInputPrice']) + "萬元";
                     }
                 }
 
@@ -641,7 +644,7 @@ function showCelebration(buyerNumber, finalPrice) {
     const winnerInfo = document.getElementById('winnerInfo');
     const audio = document.getElementById('celebrationSound');
     
-    winnerInfo.innerHTML = `${buyerNumber}號競買人<br>得標金額: ${formatPrice(finalPrice)} 元`;
+    winnerInfo.innerHTML = `${buyerNumber}號競買人<br>得標金額: ${formatPrice(finalPrice)} 萬元`;
     overlay.classList.add('active');
     
     // 播放音效 (只在已啟用時播放)
