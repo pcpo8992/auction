@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="./css/basic.css">
     <title>新北分署動產拍賣競買人喊價歷程</title>
     <style>
         body {
@@ -54,7 +54,7 @@ h3 {
 }
 
 .nowPrice {
-  font-size: 7em;
+  font-size: 6em;
   color: #fff;
   font-weight: bold;
   letter-spacing: 4px;
@@ -384,8 +384,7 @@ ul li.check {
     <h2 >動產拍賣競買人喊價</h2>
     <h3></h3>
     <div class="price">
-      <!-- <div class="title">出價最高金額<span style="font-size: 0.6em;">(單位:萬元)</span></div> -->
-      <div class="title">出價最高金額<span style="font-size: 0.6em;"></span></div>
+      <div class="title">出價最高金額</div>
       <div class="nowPrice"></div>
     </div>
     <div>
@@ -476,82 +475,34 @@ function createDate() {
 
 
 function numberComma(num) {
-    let result = num / 10000;
     let comma = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
-    // return num.toString().replace(comma, ',')
-    return result.toString().replace(comma, ',')
+    return num.toString().replace(comma, ',')
 }
 
-// 數字轉國字功能 (雙11活動專用)
-function numberToChinese(num) {
-    // 如果想改回逗號格式,註解掉這個函數內容,改用: return numberComma(num);
+// 格式化顯示金額（智能判斷億、萬 - 使用阿拉伯數字加千分位）
+function formatPrice(num) {
+    const yi = Math.floor(num / 100000000); // 億
+    const wan = Math.floor((num % 100000000) / 10000); // 萬
     
-    const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-    const units = ['', '十', '百', '千'];
-    const bigUnits = ['', '萬', '億', '兆'];
-    
-    if (num === 0) return '零';
-    
-    let numStr = num.toString();
     let result = '';
-    let zeroFlag = false;
     
-    // 將數字分成每4位一組
-    let groups = [];
-    while (numStr.length > 0) {
-        groups.unshift(numStr.slice(-4));
-        numStr = numStr.slice(0, -4);
-    }
-    
-    // 處理每一組
-    for (let i = 0; i < groups.length; i++) {
-        let groupNum = parseInt(groups[i]);
-        let groupStr = '';
-        
-        if (groupNum === 0) {
-            if (i < groups.length - 1) {
-                zeroFlag = true;
-            }
-            continue;
+    if (yi > 0) {
+        // 有億的情況
+        result += numberComma(yi) + '億';
+        if (wan > 0) {
+            result += numberComma(wan) + '萬';
         }
-        
-        // 處理組內數字
-        let groupDigits = groups[i].split('');
-        for (let j = 0; j < groupDigits.length; j++) {
-            let digit = parseInt(groupDigits[j]);
-            let unitIndex = groupDigits.length - 1 - j;
-            
-            if (digit === 0) {
-                if (j < groupDigits.length - 1 && !zeroFlag) {
-                    zeroFlag = true;
-                }
-            } else {
-                if (zeroFlag) {
-                    groupStr += '零';
-                    zeroFlag = false;
-                }
-                
-                // 特殊處理"一十"變"十"
-                if (digit === 1 && unitIndex === 1 && groupStr === '' && i === groups.length - 1 && groups.length === 1) {
-                    groupStr += units[unitIndex];
-                } else {
-                    groupStr += digits[digit] + units[unitIndex];
-                }
-            }
-        }
-        
-        result += groupStr + bigUnits[groups.length - 1 - i];
-        zeroFlag = false;
+        result += '元';
+    } else if (wan > 0) {
+        // 只有萬的情況
+        result = numberComma(wan) + '萬元';
+    } else {
+        // 小於一萬
+        result = numberComma(num) + '元';
     }
     
     return result;
 }
-
-// 格式化顯示 (雙11活動專用 - 國字版)
-//function formatPrice(num) {     return numberToChinese(num);}
-
-// 如果要改回逗號格式,取消下面這行的註解,並註解掉上面的 formatPrice 函數
- function formatPrice(num) { return numberComma(num); }
 
 function createData() {
     let firebaseConfig = {
@@ -591,13 +542,9 @@ function createData() {
                     }
                     
                     if (itemArray[i].itemLeastPrice != "") {
-                        //document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
-                        //document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
-                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:十萬元";
-                      } else {
-                        //document.querySelector("h2").innerHTML = "拍賣物名稱 : " + itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
-                        //document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:" + itemArray[i].itemLeastPrice;
-                        document.querySelector("h2").innerHTML =  itemArray[i].itemName + "<br>最低加價金額:十萬元";
+                        document.querySelector("h2").innerHTML = itemArray[i].itemName + "<br>最低加價金額:" + formatPrice(itemArray[i].itemLeastPrice);
+                    } else {
+                        document.querySelector("h2").innerHTML = itemArray[i].itemName + "<br>最低加價金額:十萬元";
                     }
 
                     if (itemArray[i].price_detail != null) {
@@ -613,11 +560,11 @@ function createData() {
                 for (let i = 0; i < priceDetailArray.length; i++) {
                     if (priceDetailArray[i]['myInputPeople'] != null) {
                         let li = document.createElement("li");
-                        let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + formatPrice(priceDetailArray[i]['myInputPrice']) + " 萬元";
+                        let finialValue = priceDetailArray[i]['myInputPeople'] + "號競買人 喊價 " + formatPrice(priceDetailArray[i]['myInputPrice']);
                         let t = document.createTextNode(finialValue);
                         li.appendChild(t);
                         ul.prepend(li);
-                        nowPrice.textContent = formatPrice(priceDetailArray[i]['myInputPrice']) + "萬元";
+                        nowPrice.textContent = formatPrice(priceDetailArray[i]['myInputPrice']);
                     }
                 }
 
@@ -644,7 +591,7 @@ function showCelebration(buyerNumber, finalPrice) {
     const winnerInfo = document.getElementById('winnerInfo');
     const audio = document.getElementById('celebrationSound');
     
-    winnerInfo.innerHTML = `${buyerNumber}號競買人<br>得標金額: ${formatPrice(finalPrice)} 萬元`;
+    winnerInfo.innerHTML = `${buyerNumber}號競買人<br>得標金額: ${formatPrice(finalPrice)}`;
     overlay.classList.add('active');
     
     // 播放音效 (只在已啟用時播放)
